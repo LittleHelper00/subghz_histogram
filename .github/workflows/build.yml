@@ -1,0 +1,32 @@
+name: Build Flipper App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: sudo apt update && sudo apt install -y cmake gcc-arm-none-eabi make ninja-build python3 git
+
+    - name: Clone Flipper firmware
+      run: git clone --recursive https://github.com/flipperdevices/flipperzero-firmware.git
+
+    - name: Build app
+      run: |
+        cd flipperzero-firmware
+        ./fbt fap_subghz_histogram
+        cp -r build/f7-firmware-D/.extapps/*.fap ../
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: histogram-app
+        path: ./*.fap
