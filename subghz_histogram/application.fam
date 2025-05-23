@@ -1,5 +1,8 @@
-name = "SubGHz Histogram"
-app_version = "1.0"
-type = "app"
-entry_point = "subghz_histogram"
-icon = "Antenna"
+App(
+    appid="subghz_histogram",
+    name="SubGHz Histogram",
+    apptype=FlipperAppType.EXTERNAL,
+    entry_point="subghz_histogram_main",  # cambia questo in base al tuo main.c
+    fap_category="Applications",
+    stack_size=1024
+)
