@@ -1,0 +1,9 @@
+App(
+    appid="subghz_histogram",
+    name="SubGHz Histogram",
+    apptype=FlipperAppType.EXTERNAL,
+    entry_point="subghz_histogram_main",
+    fap_category="Applications",
+    stack_size=1024,
+    icon="icon.png"
+)
