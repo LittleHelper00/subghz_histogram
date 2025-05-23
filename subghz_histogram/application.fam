@@ -1,0 +1,4 @@
+name = "SubGHz Histogram"
+app_version = "1.0"
+type = "app"
+entry_point = "subghz_histogram.c"
