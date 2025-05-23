@@ -1,41 +1,26 @@
-name: Build Flipper App
+name: Build FAP
 
 on:
   push:
-    branches: [ main ]
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your code
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Install build tools
-        run: |
-          sudo apt update
-          sudo apt install -y cmake scons python3 git gcc-arm-none-eabi
+      - name: Build with ufbt
+        uses: flipperdevices/flipperzero-ufbt-action@v0.1
+        id: build
+        with:
+          sdk-channel: release
+          sdk-index-url: https://up.unleashedflip.com/directory.json
+          app-dir: .  # se i file .c e .fam sono nella root del repo
 
-      - name: Clone Flipper firmware
-        run: |
-          git clone --recursive https://github.com/flipperdevices/flipperzero-firmware.git
-
-      - name: Copy app into firmware
-        run: |
-          cp -r subghz_histogram flipperzero-firmware/applications_user/
-
-      - name: Prepare toolchain
-        run: |
-          cd flipperzero-firmware
-          ./fbt toolchain
-
-      - name: Build .fap
-        run: |
-          cd flipperzero-firmware
-          ./fbt fap_subghz_histogram
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload compiled .fap
+        uses: actions/upload-artifact@v3
         with:
           name: subghz_histogram
-          path: flipperzero-firmware/build/f7-firmware-D/.extapps/subghz_histogram.fap
+          path: ${{ steps.build.outputs.fap-artifacts }}
