@@ -33,7 +33,7 @@ jobs:
           ./fbt fap_subghz_histogram
 
       - name: Upload .fap
-        uses: actions/upload-artifact@v3@9a9dcb5da6c1215fd9d5bcd12f53e1b13b763c55
+        uses: actions/upload-artifact@v4
         with:
           name: subghz_histogram
           path: flipperzero-firmware/build/f7-firmware-D/.extapps/subghz_histogram.fap
